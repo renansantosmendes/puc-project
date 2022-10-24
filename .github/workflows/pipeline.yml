@@ -9,6 +9,7 @@ on:
     branches:
     - main
     - source_code
+    - four_lecture_gab
   pull_request:
     branches:
     - main
