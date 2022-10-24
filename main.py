@@ -1,5 +1,6 @@
 import os
 import pickle
+import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -31,3 +32,17 @@ app = FastAPI()
 @app.get('/')
 def home():
     return {"Hello": "World"}
+
+
+@app.post('/api/predict')
+def predict(data: Data):
+    received_data = np.array([
+        data.baseline_value,
+        data.accelerations,
+        data.fetal_movement,
+        data.uterine_contractions,
+        data.light_decelerations,
+        data.severe_decelerations,
+        data.prolongued_decelerations
+    ]).reshape(1, -1)
+    return {'y_pred': model.predict(scaler.transform(received_data))[0]}
