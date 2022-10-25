@@ -1,0 +1,36 @@
+name: FastAPI-GitHub-Heroku
+
+#env:
+#      HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+#      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+
+on:
+  push:
+    branches:
+    - main
+    - source_code
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  ci_pipeline:
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v1
+            with:
+              fetch-depth: 0
+
+          - name: Set up Python 3.9
+            uses: actions/setup-python@v1
+            with:
+                python-version: 3.9
+
+          - name: Install dependencies
+            run: |
+                python -m pip install --upgrade pip
+                if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+          - name: Test
+            run: |
+              python -m pytest test.py
