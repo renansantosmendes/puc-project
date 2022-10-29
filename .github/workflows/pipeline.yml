@@ -1,9 +1,5 @@
 name: FastAPI-GitHub-Heroku
 
-env:
-      HEROKU_API_TOKEN: ${{secrets.HEROKU_API_TOKEN}}
-      HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
-
 on:
   push:
     branches:
@@ -41,7 +37,6 @@ jobs:
       needs: [ci_pipeline]
       steps:
         - uses: actions/checkout@v2
-          # Task for deploying to Heroku
         - name: Deploy to Heroku
           env:
             HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
@@ -50,22 +45,3 @@ jobs:
           run: |
             git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git 
             git push heroku HEAD:master -f
-
-#        - uses: actions/checkout@v2
-#        - uses: akhileshns/heroku-deploy@v3.12.12
-#          with:
-#            heroku_api_key: ${{secrets.HEROKU_API_TOKEN}}
-#            heroku_app_name: "api-puc"
-#            heroku_email: "renansantosmendes@gmail.com"
-#            healthcheck: "https://api-puc.herokuapp.com/health"
-#          - uses: actions/checkout@v2
-#
-#          - name: Install dependencies
-#            run: |
-#              python -m pip install --upgrade pip
-#              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-#
-#          - name: Deploy to Heroku
-#            run: |
-#              git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
-#              git push heroku HEAD:main -fn
