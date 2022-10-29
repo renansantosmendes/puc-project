@@ -35,4 +35,4 @@ def test_predict():
         data=data,
     )
     print(response.json())
-    assert isinstance(response.json()['y_pred'], float)
+    assert isinstance(response.json()['prediction'], float)
