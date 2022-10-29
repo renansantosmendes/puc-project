@@ -4,7 +4,7 @@ on:
   push:
     branches:
     - main
-    - four_lecture
+    - ct_pipeline
   pull_request:
     branches:
     - main
