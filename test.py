@@ -1,3 +1,4 @@
+import json
 import pytest
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
