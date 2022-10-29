@@ -15,3 +15,23 @@ def test_home():
 def test_models():
     assert isinstance(scaler, StandardScaler)
     assert isinstance(model, RandomForestClassifier)
+
+
+def test_predict():
+    data = json.dumps({
+        "baseline_value": 120.0,
+        "accelerations": 0.0,
+        "fetal_movement": 0.0,
+        "uterine_contractions": 0.0,
+        "light_decelerations": 0.0,
+        "severe_decelerations": 0.0,
+        "prolongued_decelerations": 0.0
+    })
+
+    response = client.post(
+        '/api/predict',
+        headers={"Content-Type": "application/json"},
+        data=data,
+    )
+    print(response.json())
+    assert isinstance(response.json()['y_pred'], float)
