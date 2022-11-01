@@ -28,6 +28,27 @@ jobs:
             run: |
               python -m pytest test.py
 
+  ct_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Train Model
+        run: |
+          python train_model.py --base_data_url ${{secrets.BASE_DATA_URL}} --data_file_name ${{secrets.DATA_FILE_NAME}} --tracking_uri ${{secrets.MLFLOW_TRACKING_URI}} --tracking_username ${{secrets.MLFLOW_TRACKING_USERNAME}} --tracking_password ${{secrets.MLFLOW_TRACKING_PASSWORD}} --registry_model_name ${{secrets.MLFLOW_REGISTRY_MODEL_NAME}}
+          
 
 #  cd_pipeline:
 #
