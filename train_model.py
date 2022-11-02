@@ -18,7 +18,7 @@ parser.add_argument('--tracking_uri', required=True)
 parser.add_argument('--tracking_username', required=True)
 parser.add_argument('--tracking_password', required=True)
 parser.add_argument('--registry_model_name', required=True)
-parser.add_argument('--n_estimators', required=True)
+parser.add_argument('--n_estimators', type=int, required=True)
 args = parser.parse_args()
 
 MLFLOW_TRACKING_URI = args.tracking_uri
