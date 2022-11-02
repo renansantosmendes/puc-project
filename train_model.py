@@ -18,6 +18,7 @@ parser.add_argument('--tracking_uri', required=True)
 parser.add_argument('--tracking_username', required=True)
 parser.add_argument('--tracking_password', required=True)
 parser.add_argument('--registry_model_name', required=True)
+parser.add_argument('--n_estimators', required=True)
 args = parser.parse_args()
 
 MLFLOW_TRACKING_URI = args.tracking_uri
@@ -56,7 +57,7 @@ X_train, X_test, y_train, y_test = train_test_split(X_df,
 
 clf = RandomForestClassifier(random_state=42,
                              verbose=1,
-                             n_estimators=30)
+                             n_estimators=args.n_estimators)
 
 with mlflow.start_run(run_name='RandomForestPipeline') as run:
     clf.fit(X_train, y_train)
