@@ -2,9 +2,6 @@ name: FastAPI-GitHub-Heroku
 
 on:
   push:
-    branches:
-    - main
-    - four_lecture
   pull_request:
     branches:
     - main
@@ -41,7 +38,7 @@ jobs:
           env:
             HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
             HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-          
+
           run: |
             git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git 
             git push heroku HEAD:master -f
