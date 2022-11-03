@@ -1,5 +1,7 @@
 name: FastAPI-GitHub-Heroku
-
+env:
+      HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
 on:
   push:
   pull_request:
@@ -30,23 +32,14 @@ jobs:
   cd_pipeline:
 
       runs-on: ubuntu-latest
-      needs: [ci_pipeline]
       steps:
         - uses: actions/checkout@v2
-#        - name: Login to Heroku Container registry
-#          env:
-#            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#          run: heroku container:login
-        - name: Login to Heroku
-          env:
-            HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
-            HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        - name: Install dependencies
           run: |
-            heroku login
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+            
         - name: Deploy to Heroku
-          env:
-            HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
-            HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           run: |
             git remote add heroku https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git 
             git push heroku HEAD:master -f
