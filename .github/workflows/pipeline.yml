@@ -29,41 +29,40 @@ jobs:
           - name: Test
             run: |
               python -m pytest test.py
-
-  ct_pipeline:
-    runs-on: ubuntu-latest
-    needs: [ci_pipeline]
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Train Model
-        run: |
-          python automl_train_model.py --base_data_url ${{secrets.BASE_DATA_URL}} --data_file_name ${{secrets.DATA_FILE_NAME}} --tracking_uri ${{secrets.MLFLOW_TRACKING_URI}} --tracking_username ${{secrets.MLFLOW_TRACKING_USERNAME}} --tracking_password ${{secrets.MLFLOW_TRACKING_PASSWORD}} --registry_model_name ${{secrets.MLFLOW_REGISTRY_MODEL_NAME}} --n_estimators ${{secrets.N_ESTIMATORS}}
-          
-
-#  cd_pipeline:
 #
-#      runs-on: ubuntu-latest
-#      needs: [ci_pipeline]
-#      steps:
-#        - uses: actions/checkout@v2
-#        - name: Deploy to Heroku
-#          env:
-#            HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
-#            HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-#          if: github.ref == 'refs/heads/master' && job.status == 'success'
-#          run: |
-#            git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
-#            git push heroku HEAD:master -f
+#  ct_pipeline:
+#    runs-on: ubuntu-latest
+#    needs: [ci_pipeline]
+#    steps:
+#      - uses: actions/checkout@v1
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Set up Python 3.9
+#        uses: actions/setup-python@v1
+#        with:
+#          python-version: 3.9
+#
+#      - name: Install dependencies
+#        run: |
+#          python -m pip install --upgrade pip
+#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#
+#      - name: Train Model
+#        run: |
+#          python automl_train_model.py --base_data_url ${{secrets.BASE_DATA_URL}} --data_file_name ${{secrets.DATA_FILE_NAME}} --tracking_uri ${{secrets.MLFLOW_TRACKING_URI}} --tracking_username ${{secrets.MLFLOW_TRACKING_USERNAME}} --tracking_password ${{secrets.MLFLOW_TRACKING_PASSWORD}} --registry_model_name ${{secrets.MLFLOW_REGISTRY_MODEL_NAME}} --n_estimators ${{secrets.N_ESTIMATORS}}
+#
+
+  cd_pipeline:
+
+      runs-on: ubuntu-latest
+      needs: [ci_pipeline]
+      steps:
+        - uses: actions/checkout@v2
+        - name: Deploy to Heroku
+          env:
+            HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+            HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          run: |
+            git remote add heroku https://heroku:$HEROKU_AUTH_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
+            git push heroku HEAD:master -f
