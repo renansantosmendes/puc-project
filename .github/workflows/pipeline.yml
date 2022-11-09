@@ -39,4 +39,4 @@ jobs:
 
           - name: Training model
             run: |
-              python python train_model.py --base_data_url ${{ secrets.BASE_DATA_URL}} --data_file_name ${{ secrets.DATA_FILE_NAME}}  --tracking_uri ${{ secrets.TRACKING_URI}} --tracking_username ${{ secrets.TRACKING_USERNAME}} --tracking_password ${{ secrets.TRACKING_PASSWORD}} --registry_model_name ${{ secrets.REGISTRY_MODEL_NAME}}
+              python train_model.py --base_data_url ${{ secrets.BASE_DATA_URL}} --data_file_name ${{ secrets.DATA_FILE_NAME}}  --tracking_uri ${{ secrets.TRACKING_URI}} --tracking_username ${{ secrets.TRACKING_USERNAME}} --tracking_password ${{ secrets.TRACKING_PASSWORD}} --registry_model_name ${{ secrets.REGISTRY_MODEL_NAME}}
