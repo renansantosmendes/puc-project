@@ -47,3 +47,8 @@ def predict(request: Data):
     ]).reshape(1, -1)
     prediction = model.predict(scaler.transform(received_data))[0]
     return {'prediction': prediction}
+
+
+@app.post('testing')
+def testing():
+    return {'prediction': 1.0}
